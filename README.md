@@ -154,3 +154,4 @@ docker-compose up --build
 ## Licencia
 
 Prototipo académico — uso educativo e investigación agrícola.
+# PROTOTIPO-PLANTAS-IA
