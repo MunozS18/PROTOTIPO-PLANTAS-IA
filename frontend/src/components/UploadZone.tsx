@@ -6,9 +6,10 @@ import { FiUpload, FiCamera, FiImage } from 'react-icons/fi';
 
 interface UploadZoneProps {
   onImageUpload: (file: File) => void;
+  disabled?: boolean;
 }
 
-export const UploadZone: React.FC<UploadZoneProps> = ({ onImageUpload }) => {
+export const UploadZone: React.FC<UploadZoneProps> = ({ onImageUpload, disabled }) => {
   const [isDragging, setIsDragging] = useState(false);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -19,11 +20,12 @@ export const UploadZone: React.FC<UploadZoneProps> = ({ onImageUpload }) => {
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
+    disabled,
     accept: {
       'image/*': ['.jpeg', '.jpg', '.png', '.webp']
     },
     maxFiles: 1,
-    maxSize: 10485760, // 10MB
+    maxSize: 10485760,
     onDragEnter: () => setIsDragging(true),
     onDragLeave: () => setIsDragging(false)
   });
@@ -47,6 +49,9 @@ export const UploadZone: React.FC<UploadZoneProps> = ({ onImageUpload }) => {
         <input {...getInputProps()} />
         
         <div className="p-12 text-center">
+          <p className="text-gray-500 mb-4 text-sm max-w-lg mx-auto">
+            Solo identifica 14 cultivos (tomate, papa, maíz, fresa, pimentón…). Orégano, café o yuca no están en el catálogo.
+          </p>
           <motion.div
             animate={{ y: isDragging ? -10 : 0 }}
             className="flex justify-center mb-6"

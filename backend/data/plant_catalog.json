@@ -1,0 +1,325 @@
+{
+  "Tomato___healthy": {
+    "title": "Tomate — Cultivo sano",
+    "description": "No se observan síntomas compatibles con las principales enfermedades del tomate en esta muestra.",
+    "severity": "low",
+    "plantType": "Tomate",
+    "scientificName": "Solanum lycopersicum",
+    "category": "Hortícola",
+    "healthStatus": "Sano",
+    "condition": "Follaje sin manchas, necrosis ni deformación típica de virus",
+    "hasPest": false,
+    "hasDisease": false,
+    "pestOrDiseaseName": null,
+    "treatment": [
+      "Mantener riego por goteo y acolchado (mulch)",
+      "Podar ramas bajas para ventilación",
+      "Fertilización balanceada N-P-K según etapa fenológica"
+    ],
+    "possibleCauses": [],
+    "season": "Siembra según región: Andes 2 ciclos/año; mayor monitoreo en lluvias (abril–junio, oct–dic)",
+    "colombiaRegions": ["Antioquia", "Boyacá", "Cundinamarca", "Santander", "Nariño", "Eje Cafetero"],
+    "prevention": [
+      "Monitoreo semanal de mosca blanca y tuta absoluta",
+      "Rotación con cultivos no solanáceos",
+      "Semilla o plantín certificado"
+    ],
+    "actions": [
+      "Continuar buenas prácticas agrícolas",
+      "Registrar fecha y lote para trazabilidad"
+    ],
+    "environmental": {
+      "temperature": "18–27 °C óptimo",
+      "humidity": "60–70%; evitar >85% prolongado",
+      "sunlight": "6–8 horas diarias"
+    }
+  },
+  "Tomato___Late_blight": {
+    "title": "Tomate — Tizón tardío (enfermedad)",
+    "description": "Enfermedad fúngica grave causada por Phytophthora infestans. Puede destruir el cultivo en días si no se controla.",
+    "severity": "high",
+    "plantType": "Tomate",
+    "scientificName": "Solanum lycopersicum",
+    "category": "Hortícola",
+    "healthStatus": "Afectado por enfermedad",
+    "condition": "Tizón tardío — manchas acuosas, necrosis y olor a podredumbre en hojas y frutos",
+    "hasPest": false,
+    "hasDisease": true,
+    "pestOrDiseaseName": "Phytophthora infestans (oomiceto)",
+    "treatment": [
+      "Eliminar y quemar o enterrar tejido infectado lejos del cultivo",
+      "Aplicar fungicida cúprico o específico autorizado por ICA",
+      "Suspender riego foliar; regar al suelo en horas de la mañana",
+      "Mejorar ventilación (podas, mayor espaciamiento)",
+      "Contactar extensionista municipal de agricultura"
+    ],
+    "possibleCauses": [
+      "Lluvias continuas y humedad relativa >90%",
+      "Rocío nocturno en zonas de montaña (Andes)",
+      "Plantas densas sin ventilación",
+      "Material infectado: semilla, plantín o restos de papa/tomate",
+      "Temperaturas 15–22 °C favorables al patógeno"
+    ],
+    "season": "Pico en temporada de lluvias Andinas: marzo–junio y septiembre–diciembre",
+    "colombiaRegions": ["Boyacá", "Cundinamarca", "Nariño", "Antioquia (zonas frías)"],
+    "prevention": [
+      "Variedades tolerantes cuando existan",
+      "No sembrar cerca de papas infectadas",
+      "Desinfección de invernadero y herramientas",
+      "Monitoreo diario en alerta climática"
+    ],
+    "actions": [
+      "Acción inmediata en las primeras 48 horas",
+      "Aislar sectores del lote si es posible"
+    ],
+    "environmental": {
+      "temperature": "15–22 °C — rango crítico del hongo",
+      "humidity": ">85% — factor principal de infección",
+      "sunlight": "Poca ventilación + sombra aumentan riesgo"
+    },
+    "additionalNotes": "Misma enfermedad causó la Gran Hambruna en Irlanda; muy relevante en clima andino húmedo."
+  },
+  "Tomato___Early_blight": {
+    "title": "Tomate — Tizón temprano",
+    "description": "Enfermedad fúngica por Alternaria solani. Manchas concéntricas en hojas inferiores.",
+    "severity": "high",
+    "plantType": "Tomate",
+    "scientificName": "Solanum lycopersicum",
+    "category": "Hortícola",
+    "healthStatus": "Afectado por enfermedad",
+    "condition": "Tizón temprano (Alternaria) — manchas marrones con anillos concéntricos",
+    "hasPest": false,
+    "hasDisease": true,
+    "pestOrDiseaseName": "Alternaria solani",
+    "treatment": [
+      "Retirar hojas basales infectadas",
+      "Fungicida a base de mancozeb o clorotalonil (según ICA)",
+      "Evitar estrés hídrico alternado",
+      "Rotación de cultivos"
+    ],
+    "possibleCauses": [
+      "Estrés por déficit hídrico",
+      "Alta humedad y salpicadura de suelo al riego",
+      "Restos de cultivo en el suelo",
+      "Plantas envejecidas o con deficiencia nutricional"
+    ],
+    "season": "Frecuente al final del ciclo del cultivo y en veranos secos con riego irregular",
+    "colombiaRegions": ["Valle del Cauca", "Tolima", "Huila", "Santander"],
+    "prevention": ["Mulch para evitar salpicadura", "Riego constante", "Nutrición equilibrada"],
+    "actions": ["Tratar al detectar primeras manchas"],
+    "environmental": {
+      "temperature": "24–29 °C favorables",
+      "humidity": "Rocío y humedad foliar",
+      "sunlight": "Sol pleno con buena ventilación reduce riesgo"
+    }
+  },
+  "Potato___healthy": {
+    "title": "Papa — Cultivo sano",
+    "description": "Estado fitosanitario favorable. Continúe monitoreo preventivo.",
+    "severity": "low",
+    "plantType": "Papa",
+    "scientificName": "Solanum tuberosum",
+    "category": "Tubérculo",
+    "healthStatus": "Sano",
+    "condition": "Sin síntomas de tizón, roya ni virus aparentes",
+    "hasPest": false,
+    "hasDisease": false,
+    "treatment": ["Aporcar tubérculos", "Riego regular sin encharcar", "Fertilización según análisis de suelo"],
+    "possibleCauses": [],
+    "season": "Boyacá y Nariño: siembras según altitud; 2–3 ciclos en zonas templadas",
+    "colombiaRegions": ["Boyacá", "Nariño", "Cundinamarca", "Antioquia"],
+    "prevention": ["Semilla certificada", "Rotación", "Control de polilla de la papa"],
+    "actions": ["Mantener sanidad del lote"],
+    "environmental": {
+      "temperature": "15–20 °C ideal para tubérculo",
+      "humidity": "Moderada; exceso favorece tizón",
+      "sunlight": "Pleno sol en desarrollo vegetativo"
+    }
+  },
+  "Potato___Late_blight": {
+    "title": "Papa — Tizón tardío",
+    "description": "Misma enfermedad que afecta al tomate. Riesgo crítico para seguridad alimentaria en Boyacá y Nariño.",
+    "severity": "high",
+    "plantType": "Papa",
+    "scientificName": "Solanum tuberosum",
+    "category": "Tubérculo",
+    "healthStatus": "Afectado por enfermedad",
+    "condition": "Tizón tardío en papa — manchas oscuras y pudrición",
+    "hasPest": false,
+    "hasDisease": true,
+    "pestOrDiseaseName": "Phytophthora infestans",
+    "treatment": [
+      "Aplicar fungicida sistémico/cúprico según ICA",
+      "Destruir plantas muy infectadas",
+      "No almacenar tubérculos de plantas enfermas",
+      "Alertar a vecinos del lote para manejo coordinado"
+    ],
+    "possibleCauses": [
+      "Clima frío-húmedo andino",
+      "Inóculo de temporadas anteriores en suelo",
+      "Variedades susceptibles sin tratamiento preventivo"
+    ],
+    "season": "Época de lluvias — vigilancia máxima",
+    "colombiaRegions": ["Boyacá", "Nariño", "Cundinamarca"],
+    "prevention": ["Fungicida preventivo en alerta", "Variedades tolerantes", "Acueductos y drenaje"],
+    "actions": ["Respuesta en 24–48 h"],
+    "environmental": {
+      "temperature": "10–20 °C",
+      "humidity": ">90% crítico",
+      "sunlight": "Nubes persistentes aumentan riesgo"
+    }
+  },
+  "Maize": {
+    "title": "Maíz — Plántula o cultivo identificado",
+    "description": "Cereal base de la dieta campesina colombiana. Verifique estado en campo.",
+    "severity": "low",
+    "plantType": "Maíz",
+    "scientificName": "Zea mays",
+    "category": "Cereal",
+    "healthStatus": "Sano (por confirmar en campo)",
+    "condition": "Planta de maíz sin diagnóstico específico de plaga en esta clase",
+    "hasPest": false,
+    "hasDisease": false,
+    "treatment": ["Monitorear gusano cogollero y chontacuro", "Fertilización con nitrógeno en V6–V8"],
+    "possibleCauses": ["Monocultivo", "Falta de rotación", "Suelos ácidos en Andes"],
+    "season": "Siembra: primera mitad de año (lluvias) según región",
+    "colombiaRegions": ["Huila", "Tolima", "Meta", "Córdoba", "Cundinamarca"],
+    "prevention": ["Híbridos adaptados a altitud", "Control integrado de plagas"],
+    "actions": ["Inspección foliar semanal"],
+    "environmental": {
+      "temperature": "20–30 °C",
+      "humidity": "Moderada en floración",
+      "sunlight": "Pleno sol"
+    }
+  },
+  "Black-grass": {
+    "title": "Maleza — Alpiste negro",
+    "description": "Gramínea competidora en cereales. Reduce rendimiento y calidad de grano.",
+    "severity": "medium",
+    "plantType": "Alpiste negro (maleza)",
+    "scientificName": "Alopecurus myosuroides",
+    "category": "Maleza",
+    "healthStatus": "Maleza competidora",
+    "condition": "Planta no deseada en el cultivo — competencia por luz, agua y nutrientes",
+    "hasPest": false,
+    "hasDisease": false,
+    "pestOrDiseaseName": null,
+    "treatment": [
+      "Escarda manual en etapa temprana",
+      "Herbicida graminicida según cultivo y etiqueta ICA",
+      "Rotación con leguminosas o hortalizas"
+    ],
+    "possibleCauses": [
+      "Banco de semillas en suelo",
+      "Cosecha que dispersó semillas",
+      "Falta de rotación en cereal"
+    ],
+    "season": "Emergencia con primeras lluvias del año",
+    "colombiaRegions": ["Cundinamarca", "Boyacá (trigo)"],
+    "prevention": ["Limpieza de maquinaria", "Cobertura de suelo"],
+    "actions": ["Control antes de floración"],
+    "environmental": {
+      "temperature": "Templado",
+      "humidity": "Suelos húmedos favorecen germinación",
+      "sunlight": "Compite por luz con cultivo"
+    }
+  },
+  "Charlock": {
+    "title": "Maleza — Mostaza silvestre",
+    "description": "Competidora en hortalizas y cereales de invierno.",
+    "severity": "medium",
+    "plantType": "Mostaza silvestre",
+    "scientificName": "Sinapis arvensis",
+    "category": "Maleza",
+    "healthStatus": "Maleza competidora",
+    "condition": "Maleza de hoja ancha en etapa de roseta o floración",
+    "hasPest": false,
+    "hasDisease": false,
+    "treatment": ["Escarda manual", "Mulch orgánico", "Herbicida selectivo pre-emergencia"],
+    "possibleCauses": ["Semillas latentes", "Suelo descubierto", "Borde de lotes sin limpiar"],
+    "season": "Primavera y otoño en zonas templadas",
+    "colombiaRegions": ["Altiplano cundiboyacense"],
+    "prevention": ["No dejar producir semillas", "Cobertura vegetal"],
+    "actions": ["Control temprano"],
+    "environmental": {
+      "temperature": "10–25 °C",
+      "humidity": "Moderada",
+      "sunlight": "Pleno sol"
+    }
+  },
+  "Cultivo sano": {
+    "title": "Cultivo en buen estado",
+    "description": "El modelo indica ausencia de problemas fitosanitarios evidentes. Modo demostración.",
+    "severity": "low",
+    "plantType": "Cultivo agrícola",
+    "category": "General",
+    "healthStatus": "Sano",
+    "condition": "Sin plagas ni enfermedades detectadas por el modelo",
+    "hasPest": false,
+    "hasDisease": false,
+    "treatment": ["Mantener monitoreo preventivo", "Registrar condiciones del lote"],
+    "possibleCauses": [],
+    "season": "Todo el año — ajustar según calendario del cultivo local",
+    "colombiaRegions": ["Todo el territorio nacional"],
+    "prevention": ["Buenas prácticas agrícolas", "Rotación", "Agua y nutrición adecuadas"],
+    "actions": ["Continuar monitoreo semanal"],
+    "environmental": {
+      "temperature": "Según cultivo y altitud",
+      "humidity": "Evitar estrés hídrico",
+      "sunlight": "Requerimiento del cultivo"
+    }
+  },
+  "Enfermedad detectada": {
+    "title": "Posible enfermedad en el cultivo",
+    "description": "El modelo detectó signos compatibles con enfermedad. Confirme con técnico antes de tratar.",
+    "severity": "high",
+    "plantType": "Por identificar",
+    "category": "General",
+    "healthStatus": "Afectado por enfermedad",
+    "condition": "Síntomas foliares o de fruto compatibles con patógeno",
+    "hasPest": false,
+    "hasDisease": true,
+    "pestOrDiseaseName": "Patógeno por confirmar en laboratorio o campo",
+    "treatment": [
+      "Aislar muestra y consultar agrónomo",
+      "No mezclar fungicidas sin asesoría",
+      "Retirar tejido muy infectado"
+    ],
+    "possibleCauses": [
+      "Humedad alta y poca ventilación",
+      "Material infectado",
+      "Variedad susceptible"
+    ],
+    "season": "Mayor incidencia en época de lluvias",
+    "colombiaRegions": ["Regiones Andinas y Pacífica húmeda"],
+    "prevention": ["Monitoreo semanal", "Variedades resistentes"],
+    "actions": ["Entrenar modelo con dataset Kaggle para mayor precisión"],
+    "environmental": {
+      "temperature": "Variable",
+      "humidity": "Alta humedad = alto riesgo",
+      "sunlight": "Ventilación adecuada"
+    }
+  },
+  "Maleza identificada": {
+    "title": "Maleza detectada en el lote",
+    "description": "Planta competidora que puede reducir rendimiento del cultivo principal.",
+    "severity": "medium",
+    "plantType": "Maleza",
+    "category": "Maleza",
+    "healthStatus": "Maleza competidora",
+    "condition": "Especie no deseada en el cultivo",
+    "hasPest": false,
+    "hasDisease": false,
+    "treatment": ["Control manual temprano", "Herbicida según cultivo (ICA)", "Mulch y rotación"],
+    "possibleCauses": ["Semillas en suelo", "Dispersión eólica", "Falta de cobertura"],
+    "season": "Emergencia con lluvias",
+    "colombiaRegions": ["Nacional"],
+    "prevention": ["Limpieza de herramientas", "Rotación"],
+    "actions": ["Identificar especie antes de herbicida"],
+    "environmental": {
+      "temperature": "Según especie",
+      "humidity": "Germinación con humedad de suelo",
+      "sunlight": "Compite por luz"
+    }
+  }
+}

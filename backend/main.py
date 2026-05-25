@@ -1,168 +1,157 @@
-# backend/main.py
-from fastapi import FastAPI, File, UploadFile, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
-import tensorflow as tf
-import numpy as np
-from PIL import Image
 import io
+import json
 import time
-from typing import Dict, Any
+from pathlib import Path
+
 import uvicorn
+from fastapi import FastAPI, File, HTTPException, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
+from PIL import Image
 
 from models.predictor import ModelPredictor
-from schemas import PredictionResponse, PredictionResult, Recommendation
+from prediction_utils import analyze_predictions
+from recommendations import generate_recommendations
+from schemas import AnalysisSummary, PredictionResponse, PredictionResult, Probability
 
 app = FastAPI(
-    title="AgroIdentify Colombia API",
-    description="API para identificación de plantas y enfermedades agrícolas",
-    version="1.0.0"
+    title="AgroPlantas Colombia API",
+    description="Identificación de plantas agrícolas y malezas con IA",
+    version="2.1.0",
 )
 
-# Configurar CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # En producción, especificar los orígenes permitidos
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Inicializar el predictor (se carga una sola vez)
-predictor = ModelPredictor()
+from supported_species import get_supported_species
 
-# Configuración
-IMG_SIZE = 224
-CLASS_NAMES = ['Tomate Sano', 'Tomate Tizón Tardío', 'Papa Sana']
-CONFIDENCE_THRESHOLD = 0.3
+predictor = ModelPredictor()
+CONFIDENCE_THRESHOLD = 0.50
+
 
 @app.get("/")
 async def root():
     return {
-        "message": "AgroIdentify Colombia API",
-        "version": "1.0.0",
-        "status": "operational"
+        "message": "AgroPlantas Colombia — API de identificación vegetal",
+        "version": "2.1.0",
+        "status": "operational",
+        "docs": "/docs",
     }
+
 
 @app.get("/health")
 async def health_check():
+    metrics_path = Path(__file__).resolve().parents[1] / "models" / "training_metrics.json"
+    metrics = {}
+    if metrics_path.exists():
+        with open(metrics_path, encoding="utf-8") as f:
+            metrics = json.load(f)
+
     return {
         "status": "healthy",
         "model_loaded": predictor.model is not None,
-        "classes": CLASS_NAMES
+        "model_trained": predictor.is_ready(),
+        "classes": predictor.get_class_names(),
+        "num_classes": len(predictor.get_class_names()),
+        "training_metrics": metrics or None,
     }
+
+
+
+@app.get("/api/classes")
+async def list_classes():
+    return {"classes": predictor.get_class_names()}
+
+
+@app.get("/api/supported-species")
+async def supported_species():
+    return {"species": get_supported_species(), "count": len(get_supported_species())}
+
 
 @app.post("/api/predict", response_model=PredictionResponse)
 async def predict(file: UploadFile = File(...)):
-    """
-    Endpoint principal para predicción de enfermedades en cultivos.
-    Recibe una imagen y devuelve el diagnóstico con recomendaciones.
-    """
     start_time = time.time()
-    
+
     try:
-        # Validar tipo de archivo
-        if not file.content_type.startswith('image/'):
-            raise HTTPException(
-                status_code=400, 
-                detail="El archivo debe ser una imagen válida"
-            )
-        
-        # Leer y procesar la imagen
+        if not file.content_type or not file.content_type.startswith("image/"):
+            raise HTTPException(status_code=400, detail="El archivo debe ser una imagen válida")
+
         contents = await file.read()
-        image = Image.open(io.BytesIO(contents)).convert('RGB')
-        
-        # Redimensionar y normalizar
-        image = image.resize((IMG_SIZE, IMG_SIZE))
-        image_array = np.array(image) / 255.0
-        image_array = np.expand_dims(image_array, axis=0)
-        
-        # Realizar predicción
-        predictions = predictor.predict(image_array)
-        predicted_class_idx = np.argmax(predictions[0])
-        confidence = float(predictions[0][predicted_class_idx])
-        
-        # Obtener probabilidades por clase
+        if len(contents) > 10 * 1024 * 1024:
+            raise HTTPException(status_code=400, detail="Imagen demasiado grande (máx. 10 MB)")
+
+        image = Image.open(io.BytesIO(contents))
+
+        if not predictor.is_ready():
+            raise HTTPException(
+                status_code=503,
+                detail="Modelo no entrenado. Ejecuta prepare_dataset.py y train.py",
+            )
+
+        predictions = predictor.predict_image(image)
+        class_names = predictor.get_class_names()
+
+        if len(predictions) != len(class_names):
+            raise HTTPException(status_code=500, detail="Desajuste entre modelo y clases")
+
+        analysis_raw = analyze_predictions(class_names, predictions)
+        final_class = analysis_raw["finalClass"]
+        confidence = analysis_raw["confidence"]
+
         probabilities = [
-            {"className": CLASS_NAMES[i], "probability": float(predictions[0][i])}
-            for i in range(len(CLASS_NAMES))
+            Probability(className=class_names[i], probability=float(predictions[i]))
+            for i in range(len(class_names))
         ]
-        
-        # Generar recomendaciones basadas en la predicción
-        recommendations = generate_recommendations(
-            CLASS_NAMES[predicted_class_idx], 
-            confidence
+        probabilities.sort(key=lambda p: p.probability, reverse=True)
+
+        plant_info = generate_recommendations(final_class, confidence, analysis_raw)
+
+        analysis = AnalysisSummary(
+            recognized=analysis_raw.get("recognized", True),
+            speciesName=analysis_raw["speciesName"],
+            speciesConfidence=analysis_raw["speciesConfidence"],
+            statusLabel=analysis_raw["statusLabel"],
+            conditionShort=analysis_raw["conditionShort"],
+            isHealthy=analysis_raw["isHealthy"],
+            hasPest=analysis_raw["hasPest"],
+            hasDisease=analysis_raw["hasDisease"],
+            uncertain=analysis_raw["uncertain"],
+            alternativeSpecies=analysis_raw["alternativeSpecies"],
+            supportedSpecies=analysis_raw.get("supportedSpecies", []),
+            rejectionReason=analysis_raw.get("rejectionReason"),
+            weakGuessSpecies=analysis_raw.get("weakGuessSpecies"),
+            weakGuessConfidence=analysis_raw.get("weakGuessConfidence"),
         )
-        
-        # Crear respuesta
+
+        low_conf = not analysis_raw.get("recognized", True) or (
+            confidence < CONFIDENCE_THRESHOLD or analysis_raw["uncertain"]
+        )
+
         result = PredictionResult(
-            className=CLASS_NAMES[predicted_class_idx],
+            className=final_class,
             confidence=confidence,
             probabilities=probabilities,
-            recommendations=recommendations
+            analysis=analysis,
+            plantInfo=plant_info,
+            recommendations=plant_info,
+            lowConfidence=low_conf,
         )
-        
-        processing_time = time.time() - start_time
-        
+
         return PredictionResponse(
             success=True,
             prediction=result,
-            processingTime=processing_time
+            processingTime=time.time() - start_time,
         )
-        
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
 
-def generate_recommendations(class_name: str, confidence: float) -> Recommendation:
-    """
-    Genera recomendaciones personalizadas según el diagnóstico.
-    """
-    base_recommendations = {
-        "Tomate Sano": Recommendation(
-            title="Cultivo en Buen Estado",
-            description="Tu planta de tomate se encuentra saludable. Continúa con las prácticas de cultivo adecuadas.",
-            severity="low",
-            actions=[
-                "Mantener el riego constante pero sin encharcar",
-                "Revisar periódicamente hojas inferiores en busca de signos tempranos",
-                "Aplicar fertilizante orgánico cada 15 días",
-                "Mantener el área libre de malezas"
-            ]
-        ),
-        "Tomate Tizón Tardío": Recommendation(
-            title="Alerta: Tizón Tardío Detectado",
-            description="Se ha detectado Phytophthora infestans, un hongo que puede destruir el cultivo rápidamente si no se controla.",
-            severity="high",
-            actions=[
-                "Aplicar fungicidas a base de cobre inmediatamente",
-                "Eliminar y destruir las hojas y frutos infectados",
-                "Evitar el riego por aspersión para reducir la humedad",
-                "Consultar con un técnico agrícola para tratamiento específico",
-                "Aislar plantas infectadas si es posible"
-            ]
-        ),
-        "Papa Sana": Recommendation(
-            title="Cultivo en Buen Estado",
-            description="Tu planta de papa se encuentra saludable. Sigue con las buenas prácticas agrícolas.",
-            severity="low",
-            actions=[
-                "Mantener el suelo húmedo pero bien drenado",
-                "Aporcar las plantas para proteger los tubérculos",
-                "Vigilar la aparición de plagas como la polilla de la papa",
-                "Fertilizar según la etapa de crecimiento"
-            ]
-        )
-    }
-    
-    return base_recommendations.get(
-        class_name,
-        Recommendation(
-            title="Resultado no concluyente",
-            description="No se pudo determinar con certeza el estado del cultivo.",
-            severity="medium",
-            actions=["Tomar otra foto con mejor iluminación", "Consultar con un técnico agrícola"]
-        )
-    )
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e)) from e
+
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
