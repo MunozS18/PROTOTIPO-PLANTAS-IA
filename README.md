@@ -155,3 +155,4 @@ docker-compose up --build
 
 Prototipo académico — uso educativo e investigación agrícola.
 # PROTOTIPO-PLANTAS-IA
+# PROTOTIPO-PLANTAS-IA

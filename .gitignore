@@ -1,32 +1,7 @@
-# Python
+.venv310/
 __pycache__/
-*.py[cod]
-.venv/
-venv/
-env/
-
-# Datos y modelos (grandes)
-data/raw/
-data/processed/
-models/*.keras
-models/*.h5
-!models/.gitkeep
-
-# Node
-node_modules/
+backend/__pycache__/
+backend/models/__pycache__/
+frontend/node_modules/
 frontend/dist/
-
-# IDE / OS
-.idea/
-.vscode/
-.DS_Store
-Thumbs.db
-*.log
-
-# Kaggle
-kaggle.json
-*.zip
-
-# Env
-.env
-.env.local
+data/raw/archive.zip
